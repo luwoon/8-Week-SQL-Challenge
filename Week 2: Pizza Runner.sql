@@ -15,7 +15,7 @@ VALUES
   (2, '2021-01-03'),
   (3, '2021-01-08'),
   (4, '2021-01-15');
-
+  
 
 DROP TABLE IF EXISTS customer_orders;
 CREATE TABLE customer_orders (
@@ -186,6 +186,14 @@ where cancellation is null or cancellation not in ('Restaurant Cancellation', 'C
 );
 
 --7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+
+
+select *
+,case when exclusions='' or exclusions='null' or exclusions is null then 0 else 1 end as count_exclusions
+,case when extras='' or extras='null' or extras is null then 0 else 1  end as count_extras
+from pizza_runner.customer_orders;
+
+
 
 --8. How many pizzas were delivered that had both exclusions and extras?
 
