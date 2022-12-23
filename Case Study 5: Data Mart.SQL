@@ -28,3 +28,46 @@ end as demographic
 into data_mart.clean_weekly_sales
 from data_mart.weekly_sales;
 select * from data_mart.clean_weekly_sales;
+
+
+--Data Exploration
+
+--1. What day of the week is used for each week_date value?
+
+select extract(dow from week_date) as day_of_week
+from data_mart.clean_weekly_sales; --Monday
+
+--2. What range of week numbers are missing from the dataset?
+
+select distinct(week_number)
+from data_mart.clean_weekly_sales; --1 to 12 and 37 to 52
+
+--3. How many total transactions were there for each year in the dataset?
+
+select year
+,count(transactions) as total_transactions
+from data_mart.clean_weekly_sales
+group by year;
+
+--4. What is the total sales for each region for each month?
+
+select month_number
+,year
+,region
+,sum(sales) as total_sales
+from data_mart.clean_weekly_sales
+group by region
+,month_number
+,year;
+
+--5. What is the total count of transactions for each platform?
+
+select platform
+,count(transactions) as total_transactions_count
+from data_mart.clean_weekly_sales
+group by platform;
+
+--6. What is the percentage of sales for Retail vs Shopify for each month?
+--7. What is the percentage of sales by demographic for each year in the dataset?
+--8. Which age_band and demographic values contribute the most to Retail sales?
+--9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
