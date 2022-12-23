@@ -1,4 +1,5 @@
 --A. Pizza Metrics
+
 --1. How many pizzas were ordered?
 
 select count(*) as n_pizzas_ordered
@@ -66,11 +67,11 @@ where cancellation is null or cancellation not in ('Restaurant Cancellation', 'C
 
 --7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
 
-
 select *
 ,case when exclusions='' or exclusions='null' or exclusions is null then 0 else 1 end as count_exclusions
 ,case when extras='' or extras='null' or extras is null then 0 else 1  end as count_extras
 from pizza_runner.customer_orders;
+
 
 
 
