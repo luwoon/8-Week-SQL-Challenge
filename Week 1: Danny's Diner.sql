@@ -53,6 +53,7 @@ VALUES
   ('B', '2021-01-09');
 
 
+
 --QUERY SQL
 
 -- 1. What is the total amount each customer spent at the restaurant?
@@ -83,16 +84,16 @@ select customer_id
 ,order_date
 ,product_name as first_item_purchased
 from first_item_cte
-left join dannys_diner.menu using(product_id)
+join dannys_diner.menu using(product_id)
 where item_n = 1
 order by customer_id;
 
 -- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
 
-select product_name as most_purchased_item
+select product_name
 ,count(product_id) as times_purchased
 from dannys_diner.sales
-left join dannys_diner.menu using(product_id)
+join dannys_diner.menu using(product_id)
 group by product_name
 order by times_purchased desc
 limit 1;
@@ -108,9 +109,9 @@ group by customer_id
 ,product_id
 )
 select customer_id
-,product_name as most_popular
+,product_name
 from most_popular_cte
-left join dannys_diner.menu using(product_id)
+join dannys_diner.menu using(product_id)
 where rank=1
 order by customer_id;
 
@@ -126,7 +127,7 @@ where order_date > join_date
 select customer_id
 ,product_name
 from after_member_cte
-left join dannys_diner.menu using(product_id)
+join dannys_diner.menu using(product_id)
 where purchased = 1
 order by customer_id;
 
@@ -142,7 +143,7 @@ where order_date < join_date
 select customer_id
 ,product_name
 from before_member_cte
-left join dannys_diner.menu using(product_id)
+join dannys_diner.menu using(product_id)
 where purchased = 1
 order by customer_id;
 
@@ -163,13 +164,13 @@ with points_cte as (
 select customer_id
 ,product_id
 ,price
-,case 
-when product_id=1 then 20*price
-when product_id=2 then 10*price
-when product_id=3 then 10*price
+,case product_id
+when 1 then 20*price
+when 2 then 10*price
+when 3 then 10*price
 end as points
 from dannys_diner.sales 
-left join dannys_diner.menu  using(product_id)
+join dannys_diner.menu  using(product_id)
 )
 select customer_id
 ,sum(points) as points
@@ -191,8 +192,8 @@ when product_id=3 and order_date between join_date and join_date + 7 then 20*pri
 else 10*price
 end as points
 from dannys_diner.sales 
-left join dannys_diner.menu using(product_id)
-left join dannys_diner.members using(customer_id)
+join dannys_diner.menu using(product_id)
+join dannys_diner.members using(customer_id)
 )
 select customer_id
 ,sum(points) as points
